@@ -1,7 +1,6 @@
 {
   "parser": "@typescript-eslint/parser",
   "extends": [
-    "airbnb-base",
     "eslint:recommended",
     "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended",
@@ -11,19 +10,12 @@
     "ecmaVersion": 2018,
     "sourceType": "module"
   },
+  "ignorePatterns": [
+    "dist"
+  ],
   "plugins": [
     "@typescript-eslint",
     "prettier"
-  ],
-  "settings": {
-    "import/resolver": {
-      "node": {
-        "extensions": [".js", ".ts", ".d.ts"]
-      }
-    }
-  },
-  "ignorePatterns": [
-    "dist"
   ],
   "rules": {
     "quotes": ["warn", "single"],
@@ -45,16 +37,6 @@
     "@typescript-eslint/no-non-null-assertion": "off",
     "@typescript-eslint/explicit-module-boundary-types": "off",
     "@typescript-eslint/semi": ["warn"],
-    "@typescript-eslint/member-delimiter-style": ["warn"],
-    "@typescript-eslint/no-explicit-any": "off",
-    "@typescript-eslint/no-var-requires": "off",
-    "no-use-before-define": "off",
-    "import/extensions": "off",
-    "import/prefer-default-export": "off",
-    "import/no-extraneous-dependencies": "off",
-    "class-methods-use-this": "off",
-    "no-restricted-syntax": "off",
-    "no-new": "warn",
-    "new-cap": "off"
+    "@typescript-eslint/member-delimiter-style": ["warn"]
   }
 }

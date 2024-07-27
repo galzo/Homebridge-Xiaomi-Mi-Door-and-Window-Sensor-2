@@ -5,8 +5,8 @@ import {
 	PlatformConfig,
 	StaticPlatformPlugin,
 } from 'homebridge';
-import { IConfigAccessory } from '../types/accessoryTypes';
-import { AccessoryFactory } from '../accessories/accessoryFactory';
+import { IConfigAccessory } from '../types/accessoryTypes.js';
+import { AccessoryFactory } from '../accessories/accessoryFactory.js';
 
 export class SwitchbotPlatform implements StaticPlatformPlugin {
 	private readonly log: Logging;
