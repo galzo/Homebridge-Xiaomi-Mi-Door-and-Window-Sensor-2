@@ -1,6 +1,6 @@
 import { Logger } from 'homebridge';
 
-export const logSwitchbotClientError = (logger: Logger, error: any) => {
+export const logSwitchbotClientError = (logger: Logger, error: unknown) => {
 	const errorMessage = `${error}`;
 
 	const isInitializationError = errorMessage

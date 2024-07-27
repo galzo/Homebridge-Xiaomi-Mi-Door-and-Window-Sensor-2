@@ -6,9 +6,9 @@ import {
 	CACHE_TTL,
 	CHECK_CACHE_TTL_PERIOD,
 	DEFAULT_SCAN_RETRIES,
-} from '../settings';
-import { Optional } from '../types/generalTypes';
-import { logSwitchbotClientError } from '../utils/errorLogger';
+} from '../settings.js';
+import { Optional } from '../types/generalTypes.js';
+import { logSwitchbotClientError } from '../utils/errorLogger.js';
 
 export class SwitchBotClient {
 	private log: Logger;

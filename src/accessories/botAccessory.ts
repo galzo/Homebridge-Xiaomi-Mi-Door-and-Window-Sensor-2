@@ -9,9 +9,9 @@ import {
 	HAPStatus,
 	AccessoryPlugin,
 } from 'homebridge';
-import { MetadataClient } from '../clients/metaDataClient';
-import { SwitchBotClient } from '../clients/switchBotClient';
-import { IAccessoryParams } from '../types/accessoryTypes';
+import { MetadataClient } from '../clients/metaDataClient.js';
+import { SwitchBotClient } from '../clients/switchBotClient.js';
+import { IAccessoryParams } from '../types/accessoryTypes.js';
 
 export class BotAccessory implements AccessoryPlugin {
 	private readonly switchService: Service;

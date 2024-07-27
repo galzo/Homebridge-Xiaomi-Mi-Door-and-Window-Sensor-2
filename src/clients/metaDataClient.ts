@@ -5,10 +5,10 @@ import {
 	CACHE_TTL,
 	CHECK_CACHE_TTL_PERIOD,
 	DEFAULT_BATTERY_LEVEL,
-} from '../settings';
-import { SwitchbotOperationMode } from '../types/accessoryTypes';
-import { Optional } from '../types/generalTypes';
-import { logSwitchbotClientError } from '../utils/errorLogger';
+} from '../settings.js';
+import { SwitchbotOperationMode } from '../types/accessoryTypes.js';
+import { Optional } from '../types/generalTypes.js';
+import { logSwitchbotClientError } from '../utils/errorLogger.js';
 
 export class MetadataClient {
 	private log: Logger;

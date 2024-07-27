@@ -5,9 +5,9 @@ import {
 	DEFAULT_SCAN_RETRIES,
 	DEFAULT_SCAN_RETRY_COOLDOWN,
 } from '../settings';
-import { IConfigAccessory } from '../types/accessoryTypes';
-import { Optional } from '../types/generalTypes';
-import { BotAccessory } from './botAccessory';
+import { IConfigAccessory } from '../types/accessoryTypes.js';
+import { Optional } from '../types/generalTypes.js';
+import { BotAccessory } from './botAccessory.js';
 
 export class AccessoryFactory {
 	private readonly hap: HAP;
