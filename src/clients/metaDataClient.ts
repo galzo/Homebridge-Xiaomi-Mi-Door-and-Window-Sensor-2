@@ -1,6 +1,5 @@
 import { Logger } from 'homebridge';
 import NodeCache from 'node-cache';
-import SwitchBot, { AdvertisementData } from 'node-switchbot';
 import {
 	CACHE_TTL,
 	CHECK_CACHE_TTL_PERIOD,
@@ -9,6 +8,10 @@ import {
 import { SwitchbotOperationMode } from '../types/accessoryTypes.js';
 import { Optional } from '../types/generalTypes.js';
 import { logSwitchbotClientError } from '../utils/errorLogger.js';
+import { SwitchBot } from 'node-switchbot';
+import { Ad } from 'node-switchbot/dist/advertising.js';
+import { SwitchbotMetadata } from '../types/switchBotTypes.js';
+import { adaptSwitchBotAdvertisdementData } from '../utils/scanResultsHandler.js';
 
 export class MetadataClient {
 	private log: Logger;
@@ -28,7 +31,7 @@ export class MetadataClient {
 
 	constructor(log: Logger) {
 		this.log = log;
-		this.client.onadvertisement = this.handleScannedMetadata;
+		this.client.onadvertisement = this.handleScannedAdvertisdementData;
 	}
 
 	/**
@@ -57,7 +60,7 @@ export class MetadataClient {
 	private getDeviceMetaData = (
 		address: string,
 		scanDuration: number,
-	): Optional<AdvertisementData> => {
+	): Optional<SwitchbotMetadata> => {
 		const metaData = this.getMetadataFromCache(address);
 
 		if (!metaData && !this.isScanningForMetadata) {
@@ -91,20 +94,26 @@ export class MetadataClient {
 		}
 	};
 
-	private handleScannedMetadata = (data: AdvertisementData) => {
-		const isAlreadyCached = this.metaDataCache.has(data.address);
+	private handleScannedAdvertisdementData = (data: Ad) => {
+		const adaptedData = adaptSwitchBotAdvertisdementData(data);
+		if (!adaptedData) {
+			this.log.error('Data scanned is not valid');
+			return;
+		}
+
+		const isAlreadyCached = this.metaDataCache.has(adaptedData.address);
 		if (isAlreadyCached) {
 			return;
 		}
 
 		this.log.info(
-			`Found device metadata during scan. setting on cache. (address ${data.address})`,
+			`Found device metadata during scan. setting on cache. (address ${adaptedData.address})`,
 		);
-		this.metaDataCache.set(data.address, data);
+		this.metaDataCache.set(adaptedData.address, data);
 	};
 
 	private getMetadataFromCache = (address: string) => {
-		const metaData = this.metaDataCache.get(address) as AdvertisementData;
+		const metaData = this.metaDataCache.get(address) as SwitchbotMetadata;
 		return metaData;
 	};
 }

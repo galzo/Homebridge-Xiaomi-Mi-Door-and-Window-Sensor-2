@@ -16,9 +16,9 @@ export const DEFAULT_AUTO_OFF_IN_PRESS_MODE = true;
 
 /**
  * Cache TTL - the amount of time cached items should live
- * set to 1 day (86,400 seconds)
+ * set to 1 hour1 (3600 seconds)
  */
-export const CACHE_TTL = 86400;
+export const CACHE_TTL = 3600;
 
 /**
  * Amount of time to wait between each periodical check of cache items that should be deleted

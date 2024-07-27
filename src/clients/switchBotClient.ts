@@ -1,5 +1,4 @@
 import { Logger } from 'homebridge';
-import SwitchBot, { SwitchbotDeviceWoHand } from 'node-switchbot';
 import NodeCache from 'node-cache';
 import {
 	DEFAULT_SCAN_RETRY_COOLDOWN,
@@ -9,6 +8,9 @@ import {
 } from '../settings.js';
 import { Optional } from '../types/generalTypes.js';
 import { logSwitchbotClientError } from '../utils/errorLogger.js';
+import { SwitchBot } from 'node-switchbot';
+import { adaptSBDeviceScanResults } from '../utils/scanResultsHandler.js';
+import { SwitchbotDeviceWoHand } from '../types/switchBotTypes.js';
 
 export class SwitchBotClient {
 	private log: Logger;
@@ -33,11 +35,6 @@ export class SwitchBotClient {
 		waitBetweenRetries = DEFAULT_SCAN_RETRY_COOLDOWN,
 	): Promise<Optional<SwitchbotDeviceWoHand>> => {
 		this.log.info(`Getting SwitchBot device (address ${address})`);
-
-		// const deviceFromCache = this.getDeviceFromCache(address);
-		// if (deviceFromCache) {
-		// 	return deviceFromCache;
-		// }
 
 		try {
 			const deviceFromScan = await this.attemptRun(
@@ -81,25 +78,23 @@ export class SwitchBotClient {
 	) => {
 		this.log.info(`Scanning for SwitchBot device (address ${address})`);
 
-		const scannedDevices: SwitchbotDeviceWoHand[] = await this.client.discover({
+		const scanResults = await this.client.discover({
 			duration: scanDuration,
 			model: 'H',
-			quick: true,
 			id: address,
 		});
 
-		const noDeviceFound = !scannedDevices || scannedDevices.length <= 0;
-		if (noDeviceFound) {
+		const scannedDevice = adaptSBDeviceScanResults(scanResults);
+		if (!scannedDevice) {
 			throw new Error(`No Device found for address ${address}`);
 		}
 
-		const targetDevice = scannedDevices[0];
 		this.log.info(`Found SwitchBot device (address ${address})`);
 
 		if (shouldCache) {
-			this.setDeviceOnCache(address, targetDevice);
+			this.setDeviceOnCache(address, scannedDevice);
 		}
-		return targetDevice;
+		return scannedDevice;
 	};
 
 	private getDeviceFromCache = (
