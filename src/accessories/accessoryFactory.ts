@@ -4,7 +4,7 @@ import {
 	DEFAULT_SCAN_DURATION,
 	DEFAULT_SCAN_RETRIES,
 	DEFAULT_SCAN_RETRY_COOLDOWN,
-} from '../settings';
+} from '../settings.js';
 import { IConfigAccessory } from '../types/accessoryTypes.js';
 import { Optional } from '../types/generalTypes.js';
 import { BotAccessory } from './botAccessory.js';
